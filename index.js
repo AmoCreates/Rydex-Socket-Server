@@ -36,10 +36,19 @@ io.on("connection", async (socket) => {
 		});
 	});
 
+	socket.on("update_coordinates", async ({userId, lon, lat}) => {
+		await User.findByIdAndUpdate(userId, {
+			location: {
+				type: "Point",
+				coordinates: [lon, lat]
+			}
+		})
+	});
+
 	socket.on("disconnect", async () => {
 		if (!socket.userId) return;
 		console.log("User Disconnected", socket.id);
-		await User.findOneAndUpdate(socket.userId, {
+		await User.findByIdAndUpdate(socket.userId, {
 				$unset: { socketId: 1 }, // This completely removes the socketId field
 				$set: { isOnline: false },
 			});
