@@ -9,6 +9,9 @@ dotenv.config({ path: "./.env" });
 const port = process.env.PORT || 5000;
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
@@ -17,8 +20,18 @@ const io = new Server(server, {
 	},
 });
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.post("/emit", async (req, res) => {
+	try {
+		const { event, userId, data } = req.body;
+		const user = await User.findById(userId);
+
+		io.to(user.socketId).emit(event, data);
+		return res.json({ success: true });
+	} catch (error) {
+		console.log(error)
+		return res.json({ success: false });
+	}
+});
 
 app.use("/", (req, res) => {
 	res.send("server is ready to serve");
@@ -36,24 +49,25 @@ io.on("connection", async (socket) => {
 		});
 	});
 
-	socket.on("update_coordinates", async ({userId, lon, lat}) => {
+	socket.on("update_coordinates", async ({ userId, lon, lat }) => {
 		await User.findByIdAndUpdate(userId, {
 			location: {
 				type: "Point",
-				coordinates: [lon, lat]
-			}
-		})
+				coordinates: [lon, lat],
+			},
+		});
 	});
 
 	socket.on("disconnect", async () => {
 		if (!socket.userId) return;
 		console.log("User Disconnected", socket.id);
 		await User.findByIdAndUpdate(socket.userId, {
-				$unset: { socketId: 1 }, // This completely removes the socketId field
-				$set: { isOnline: false },
-			});
+			$unset: { socketId: 1 }, // This completely removes the socketId field
+			$set: { isOnline: false },
+		});
 	});
 });
+
 
 server.listen(port, async () => {
 	console.log(`server ready, listening at ${port}`);
