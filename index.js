@@ -65,7 +65,7 @@ io.on("connection", async (socket) => {
 
 	socket.on("driver-location-update", ({bookingId, status, latitude, longitude}) => {
 		io.to(`ride-${bookingId}`).emit("driver-location", {
-			latitude, longitude
+			latitude, longitude, status
 		})
 	})
 
