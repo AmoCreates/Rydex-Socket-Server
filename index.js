@@ -73,6 +73,14 @@ io.on("connection", async (socket) => {
 		io.to(`ride-${data.bookingId}`).emit("new-message", data)
 	})
 
+	socket.on("cash-request", ({bookingId}) => {
+		io.to(`ride-${bookingId}`).emit("cash-requested")
+	})
+
+	socket.on("cash-received", ({bookingId}) => {
+		io.to(`ride-${bookingId}`).emit("cash-received")
+	})
+
 	socket.on("disconnect", async () => {
 		if (!socket.userId) return;
 		console.log("User Disconnected", socket.id);
