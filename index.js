@@ -81,6 +81,11 @@ io.on("connection", async (socket) => {
 		io.to(`ride-${bookingId}`).emit("cash-received")
 	})
 
+	socket.on("cash-declined", ({bookingId}) => {
+		console.log("io to cash declined")
+		io.to(`ride-${bookingId}`).emit("cash-declined")
+	})
+
 	socket.on("disconnect", async () => {
 		if (!socket.userId) return;
 		console.log("User Disconnected", socket.id);
