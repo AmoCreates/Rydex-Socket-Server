@@ -38,11 +38,9 @@ app.use("/", (req, res) => {
 });
 
 io.on("connection", async (socket) => {
-	console.log(`User Connected: ${socket.id}`);
 
 	socket.on("identity", async (userId) => {
 		socket.userId = userId;
-		console.log(`user id: ${userId}`);
 		await User.findByIdAndUpdate(userId, {
 			socketId: socket.id,
 			isOnline: true,
@@ -59,7 +57,6 @@ io.on("connection", async (socket) => {
 	});
 
 	socket.on("join-ride", (bookingId) => {
-		console.log("ride joined: ", bookingId)
 		socket.join(`ride-${bookingId}`)
 	})
 
@@ -82,13 +79,11 @@ io.on("connection", async (socket) => {
 	})
 
 	socket.on("cash-declined", ({bookingId}) => {
-		console.log("io to cash declined")
 		io.to(`ride-${bookingId}`).emit("cash-declined")
 	})
 
 	socket.on("disconnect", async () => {
 		if (!socket.userId) return;
-		console.log("User Disconnected", socket.id);
 		await User.findByIdAndUpdate(socket.userId, {
 			$unset: { socketId: 1 }, // This completely removes the socketId field
 			$set: { isOnline: false },
