@@ -16,7 +16,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
 		origin: process.env.NEXT_BASE_URL || "http://localhost:3000",
-		method: ["GET", "POST"],
+		methods: ["GET", "POST"],
 	},
 });
 
@@ -31,6 +31,11 @@ app.post("/emit", async (req, res) => {
 		console.log(error)
 		return res.json({ success: false });
 	}
+});
+
+// Lightweight endpoint to keep Render instance awake
+app.get("/health", (req, res) => {
+	res.status(200).send("OK");
 });
 
 app.use("/", (req, res) => {
@@ -90,7 +95,6 @@ io.on("connection", async (socket) => {
 		});
 	});
 });
-
 
 server.listen(port, async () => {
 	console.log(`server ready, listening at ${port}`);
