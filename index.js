@@ -71,6 +71,10 @@ io.on("connection", async (socket) => {
 		})
 	})
 
+	socket.on("ride-confirmed", ({bookingId}) => {
+		io.to(`ride-${bookingId}`).emit("ride-confirmed")
+	})
+
 	socket.on("new-message", (data) => {
 		io.to(`ride-${data.bookingId}`).emit("new-message", data)
 	})
