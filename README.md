@@ -4,13 +4,33 @@
 [![Express.js](https://img.shields.io/badge/Express.js-5.2-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![Socket.io](https://img.shields.io/badge/Socket.io-v4.8-010101?style=for-the-badge&logo=socket.io&logoColor=white)](https://socket.io/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose_v9-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Render Deployment](https://img.shields.io/badge/Render-Live_Server-46E3B7?style=for-the-badge&logo=render&logoColor=black)](https://rydex-socket-server-rgmq.onrender.com)
+[![Vercel Client](https://img.shields.io/badge/Vercel-Client_App-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://rydex-roan.vercel.app)
 
-> **Rydex Socket Server** is the dedicated real-time communication backbone for the Rydex vehicle booking ecosystem. Built with **Express**, **Socket.IO**, and **Mongoose**, it powers bidirectional live GPS driver tracking, instant in-ride messaging, ride room dispatching, and cash transaction synchronization.
+> **Rydex Socket Server** is the dedicated real-time communication backbone for the Rydex vehicle booking ecosystem, created and architected by **Anmol Maurya (Amy)**. Built with **Express**, **Socket.IO**, and **Mongoose**, it powers bidirectional live GPS driver tracking, instant in-ride messaging, ride room dispatching, and cash transaction synchronization.
+
+---
+
+## 🌐 Live Deployments
+
+| Service | Platform | Live URL | Status |
+| :--- | :--- | :--- | :---: |
+| **Rydex Socket Server** | **Render** | [https://rydex-socket-server-rgmq.onrender.com](https://rydex-socket-server-rgmq.onrender.com) | 🟢 Live |
+| **Rydex Web App (Client)** | **Vercel** | [https://rydex-roan.vercel.app](https://rydex-roan.vercel.app) | 🟢 Live |
+
+---
+
+## 👨‍💻 Creator & Author
+
+- **Creator & Lead Architect**: **Anmol Maurya** (Amy)
+- **Project**: Rydex (Full-Stack Next-Gen Vehicle Booking & Ride Hailing System)
 
 ---
 
 ## 📑 Table of Contents
 
+- [Live Deployments](#-live-deployments)
+- [Creator & Author](#-creator--author)
 - [Core Responsibilities](#-core-responsibilities)
 - [How It Connects with Rydex Client](#-how-it-connects-with-rydex-client)
 - [Real-Time Socket Events Reference](#-real-time-socket-events-reference)
@@ -38,6 +58,7 @@
 ```
 ┌───────────────────────────┐                    ┌────────────────────────────┐
 │    Rydex Client (Next.js) │                    │  Rydex Socket Server (Node)│
+│  https://rydex-roan.vercel.app                 │  https://rydex-socket-server...
 └─────────────┬─────────────┘                    └─────────────┬──────────────┘
               │                                                │
               ├─────── 1. socket.emit("identity", userId) ─────► Sets isOnline: true in DB
@@ -129,6 +150,7 @@ MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.mongodb.net/rydex"
 
 # Allowed CORS Origin for Rydex Next.js Frontend
 NEXT_BASE_URL="http://localhost:3000"
+# In Production: NEXT_BASE_URL="https://rydex-roan.vercel.app"
 ```
 
 ---
@@ -137,7 +159,7 @@ NEXT_BASE_URL="http://localhost:3000"
 
 ```mermaid
 flowchart LR
-    A[Next.js Client] <-->|Socket.IO Connection| B[Socket.IO Server]
+    A[Next.js Client (Vercel)] <-->|Socket.IO Connection| B[Socket.IO Server (Render)]
     B <-->|Mongoose ODM| C[(MongoDB Database)]
     D[Next.js API Routes] -->|POST /emit| B
 ```
@@ -147,3 +169,9 @@ flowchart LR
 ## 📄 License
 
 This project is licensed under the **ISC License**.
+
+---
+
+<p align="center">
+  Crafted with ❤️ by <b>Anmol Maurya (Amy)</b>
+</p>
