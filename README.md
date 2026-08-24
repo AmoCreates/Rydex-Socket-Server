@@ -16,7 +16,7 @@
 | Service | Platform | Live URL | Status |
 | :--- | :--- | :--- | :---: |
 | **Rydex Socket Server** | **Render** | [https://rydex-socket-server-rgmq.onrender.com](https://rydex-socket-server-rgmq.onrender.com) | 🟢 Live |
-| **Rydex Web App (Client)** | **Vercel** | [https://rydex-roan.vercel.app](https://rydex-roan.vercel.app) | 🟢 Live |
+| **Rydex Web App** | **Vercel** | [https://rydex-roan.vercel.app](https://rydex-roan.vercel.app) | 🟢 Live |
 
 ---
 
