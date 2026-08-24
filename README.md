@@ -36,9 +36,7 @@
 - [Real-Time Socket Events Reference](#-real-time-socket-events-reference)
 - [REST Endpoints](#-rest-endpoints)
 - [Getting Started & Local Setup](#-getting-started--local-setup)
-- [Environment Variables](#-environment-variables)
 - [Architecture & Workflow](#-architecture--workflow)
-- [License](#-license)
 
 ---
 
@@ -137,38 +135,14 @@ The socket server will connect to MongoDB and start listening on port `8000` (or
 
 ---
 
-## 🔑 Environment Variables
-
-Create a `.env` file in the `socketServer/` root:
-
-```env
-# Port on which the socket server listens
-PORT=8000
-
-# MongoDB Connection String (must match the database used by Rydex Client)
-MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.mongodb.net/rydex"
-
-# Allowed CORS Origin for Rydex Next.js Frontend
-NEXT_BASE_URL="http://localhost:3000"
-# In Production: NEXT_BASE_URL="https://rydex-roan.vercel.app"
-```
-
----
-
 ## 🏛️ Architecture & Workflow
 
 ```mermaid
 flowchart LR
-    A[Next.js Client (Vercel)] <-->|Socket.IO Connection| B[Socket.IO Server (Render)]
-    B <-->|Mongoose ODM| C[(MongoDB Database)]
-    D[Next.js API Routes] -->|POST /emit| B
+    ClientApp["Next.js Client (Vercel)"] <-->|"Socket.IO Events"| SocketEngine["Socket.IO Server (Render)"]
+    SocketEngine <-->|"Mongoose ODM"| MongoDatabase[("MongoDB Atlas")]
+    ServerlessAPIs["Next.js API Routes"] -->|"POST /emit"| SocketEngine
 ```
-
----
-
-## 📄 License
-
-This project is licensed under the **ISC License**.
 
 ---
 
